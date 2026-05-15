@@ -10,11 +10,38 @@
   <!-- Favicon: inline SVG data URI (no external file needed) -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0a0a'/%3E%3Cpath d='M14 50 L14 14 L32 38 L50 14 L50 50' fill='none' stroke='%2300E5FF' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"/>
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="MarkM - Projects"/>
-  <meta property="og:description" content="Browser extensions and mobile apps by MarkM Dev."/>
+  <!-- Canonical URL: tells search engines and social aggregators the
+       authoritative URL for this page. Keep in sync with og:url. -->
+  <link rel="canonical" href="https://markm-dev.github.io/"/>
+
+  <!-- ========== Open Graph ==========
+       Used by WhatsApp, Discord, Slack, LinkedIn, Facebook, iMessage,
+       Telegram, Signal, and many link unfurlers. The og:image MUST be
+       an absolute HTTPS URL (relative paths do not work for crawlers).
+       Standard size: 1200x630 px. -->
   <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="MarkM Dev"/>
+  <meta property="og:locale" content="en_US"/>
   <meta property="og:url" content="https://markm-dev.github.io/"/>
+  <meta property="og:title" content="MarkM - Side projects. Full effort."/>
+  <meta property="og:description" content="Browser extensions and mobile apps. Previews for Twitch, YouTube & Kick. Spin It!, Their Wallpaper, Simple Notes, and more - used daily by 60,000+ people."/>
+  <meta property="og:image" content="https://markm-dev.github.io/images/og-image.png"/>
+  <meta property="og:image:secure_url" content="https://markm-dev.github.io/images/og-image.png"/>
+  <meta property="og:image:type" content="image/png"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:image:alt" content="MarkM - Side projects. Full effort. Portfolio of browser extensions and mobile apps."/>
+
+  <!-- ========== Twitter / X Card ==========
+       X uses these specifically; falls back to og:* if missing, but having
+       them gives full control. summary_large_image renders the wide
+       banner-style preview (vs the small thumbnail variant). -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:url" content="https://markm-dev.github.io/"/>
+  <meta name="twitter:title" content="MarkM - Side projects. Full effort."/>
+  <meta name="twitter:description" content="Browser extensions and mobile apps. Previews for Twitch, YouTube & Kick. Spin It!, Their Wallpaper, Simple Notes, and more - used daily by 60,000+ people."/>
+  <meta name="twitter:image" content="https://markm-dev.github.io/images/og-image.png"/>
+  <meta name="twitter:image:alt" content="MarkM - Side projects. Full effort. Portfolio of browser extensions and mobile apps."/>
 
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
