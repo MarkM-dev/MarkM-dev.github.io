@@ -263,12 +263,65 @@
       padding: 0.5rem 1.5rem 2rem;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      grid-auto-rows: minmax(180px, auto);
-      gap: 1rem;
+    /* ========== SECTIONS ==========
+       Projects are grouped into labelled categories (Games, Mobile Apps,
+       Browser Extensions). Each section has a header and its own grid so
+       the layout reads as distinct, scannable groups rather than one big
+       wall of cards. */
+    .section { margin: 0 0 2.4rem; }
+    .section:last-child { margin-bottom: 0; }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 1.05rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--border);
+      animation: fadeUp 0.6s ease both;
     }
+    .section-icon {
+      display: grid;
+      place-items: center;
+      width: 30px; height: 30px;
+      border-radius: 9px;
+      background: rgba(0,229,255,0.08);
+      border: 1px solid rgba(0,229,255,0.22);
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+    .section-icon svg { width: 16px; height: 16px; }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1;
+    }
+    .section-count {
+      margin-left: auto;
+      font-family: var(--font-mono);
+      font-size: 0.64rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      white-space: nowrap;
+    }
+
+    /* Each section gets its own grid. They share spacing + row sizing. */
+    .section-grid {
+      display: grid;
+      gap: 1rem;
+      grid-auto-rows: minmax(180px, auto);
+    }
+    /* Games - single full-width hero card */
+    .grid-games { grid-template-columns: 1fr; }
+    .grid-games .card--featured { grid-column: auto; }
+    /* Mobile apps - even 3-up row */
+    .grid-apps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    /* Browser extensions - tall flagship on the left, two stacked on the right */
+    .grid-ext { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-ext .card--featured { grid-column: auto; }
 
     /* ========== CARD ========== */
     .card {
@@ -721,17 +774,13 @@
 
     /* ========== RESPONSIVE ========== */
     @media (max-width: 960px) {
-      .grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-      .card--featured { grid-column: span 2; }
-      .card--tall {
-        grid-row: span 1;
-        grid-column: span 2;
-      }
+      /* Mobile apps drop to a 2-up grid */
+      .grid-apps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      /* Browser extensions: tall flagship spans full width on top, the two
+         smaller cards sit 2-up beneath it */
+      .grid-ext { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-ext .card--tall { grid-row: span 1; grid-column: span 2; }
       .card--tall .stats { flex-direction: row; gap: 1.5rem; flex-wrap: wrap; }
-      /* Prevent orphaned 7th card by letting it span both cols on tablet */
-      .card--restricted { grid-column: span 2; }
     }
 
     @media (max-width: 620px) {
@@ -745,10 +794,10 @@
       .hero-eyebrow { font-size: 0.65rem; }
 
       .grid-wrap { padding: 0.5rem 1rem 2rem; }
-      .grid {
-        grid-template-columns: 1fr;
-        gap: 0.85rem;
-      }
+      .section { margin-bottom: 1.8rem; }
+      .section-grid { gap: 0.85rem; }
+      .grid-apps, .grid-ext { grid-template-columns: 1fr; }
+      .grid-ext .card--tall { grid-row: auto; grid-column: auto; }
       .card, .card--featured, .card--tall { --card-pad: 1.15rem; }
       .card--featured, .card--tall, .card--restricted { grid-column: auto; grid-row: auto; }
       .card--featured .card-inner {
@@ -854,280 +903,312 @@
   </section>
 
   <div class="grid-wrap">
-    <section class="grid" aria-label="Projects">
 
-      <!-- 1. SPIN IT! - Featured (2 cols x 1 row) -->
-      <a class="card card--featured" href="https://play.google.com/store/apps/details?id=com.spinitgame.spinit" target="_blank" rel="noopener noreferrer" aria-label="Spin It! - competitive swiping mobile game">
-        <!-- Banner (comment-out this block to remove the banner from this card) -->
-        <div class="card-banner-wrap" style="aspect-ratio: 1024 / 244;" >
-          <img class="card-banner" src="images/spinit_banner.webp" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"/>
-        </div>
-        <div class="card-inner">
-          <div class="feature-text">
-            <span class="badge badge--soon">
-              <svg class="badge-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-bolt"/></svg>
-              Just Launched!
-            </span>
-            <div class="feature-head">
-              <img class="feature-icon" src="images/spinit_logo.webp" alt="" loading="lazy" onerror="this.onerror=null; this.removeAttribute('src');"/>
-              <h3 class="feature-title">Spin It!</h3>
-            </div>
-            <p class="feature-tag">
-              <strong>Competitive swiping</strong> - how fast can you swipe? One cube. One arrow. Build combos, dominate global & friends leaderboards.
-            </p>
-            <div class="card-foot">
-              <div class="badges">
-                <span class="badge">
-                  <svg class="badge-icon icon-android" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-android"/></svg>
-                  Android
-                </span>
-                <span class="badge">
-                  <svg class="badge-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-gamepad"/></svg>
-                  Mobile Game
+    <!-- ===================== GAMES ===================== -->
+    <section class="section" aria-label="Games">
+      <div class="section-head">
+        <span class="section-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><use href="#i-gamepad"/></svg>
+        </span>
+        <h2 class="section-title">Games</h2>
+        <span class="section-count">1 Project</span>
+      </div>
+      <div class="section-grid grid-games">
+
+        <a class="card card--featured" href="https://play.google.com/store/apps/details?id=com.spinitgame.spinit" target="_blank" rel="noopener noreferrer" aria-label="Spin It! - competitive swiping mobile game">
+          <!-- Banner (comment-out this block to remove the banner from this card) -->
+          <div class="card-banner-wrap" style="aspect-ratio: 1024 / 244;" >
+            <img class="card-banner" src="images/spinit_banner.webp" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"/>
+          </div>
+          <div class="card-inner">
+            <div class="feature-text">
+              <span class="badge badge--soon">
+                <svg class="badge-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-bolt"/></svg>
+                Just Launched!
+              </span>
+              <div class="feature-head">
+                <img class="feature-icon" src="images/spinit_logo.webp" alt="" loading="lazy" onerror="this.onerror=null; this.removeAttribute('src');"/>
+                <h3 class="feature-title">Spin It!</h3>
+              </div>
+              <p class="feature-tag">
+                <strong>Competitive swiping</strong> - how fast can you swipe? One cube. One arrow. Build combos, dominate global & friends leaderboards.
+              </p>
+              <div class="card-foot">
+                <div class="badges">
+                  <span class="badge">
+                    <svg class="badge-icon icon-android" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-android"/></svg>
+                    Android
+                  </span>
+                  <span class="badge">
+                    <svg class="badge-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-gamepad"/></svg>
+                    Mobile Game
+                  </span>
+                </div>
+                <span class="card-go" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
                 </span>
               </div>
-              <span class="card-go" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+            </div>
+            <div class="phone" aria-hidden="true">
+              <img src="images/spinit_phone.webp" alt="" loading="lazy" onerror="this.style.display='none'"/>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ===================== BROWSER EXTENSIONS ===================== -->
+    <section class="section" aria-label="Browser Extensions">
+      <div class="section-head">
+        <span class="section-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><use href="#i-extension"/></svg>
+        </span>
+        <h2 class="section-title">Browser Extensions</h2>
+        <span class="section-count">3 Projects</span>
+      </div>
+      <div class="section-grid grid-ext">
+
+        <a class="card card--tall" href="https://previews-app.com/" target="_blank" rel="noopener noreferrer" aria-label="Previews - hover previews and quality-of-life tools for Twitch, YouTube, and Kick">
+          <!-- Banner (comment-out this block to remove the banner from this card) -->
+          <div class="card-banner-wrap">
+            <img class="card-banner" src="images/previews_banner.webp" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"/>
+          </div>
+          <div class="card-head">
+            <img class="card-icon" src="images/previews_logo.webp" alt="" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#9147ff,#5e2bff)'; this.removeAttribute('src');"/>
+            <div class="card-head-text">
+              <div class="card-title">Previews</div>
+              <div class="card-platform">
+                <svg class="platform-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-extension"/></svg>
+                Browser Extension
+              </div>
+            </div>
+          </div>
+          <p class="card-desc">Live hover previews and quality-of-life tools for <strong style="color:var(--text)">Twitch</strong>, <strong style="color:var(--text)">YouTube</strong>, and <strong style="color:var(--text)">Kick</strong>. Sidebar favorites, FlashBang Defender, multi-stream, predictions sniper, and dozens more.</p>
+
+          <div class="stats">
+            <div class="stat-row">
+              <span class="stat-num">60,000+</span>
+              <span class="stat-label">Active Users</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-num">4.8 ★</span>
+              <span class="stat-label">Web Store Rating</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-num">Since '20</span>
+              <span class="stat-label">Maintained 6+ years</span>
+            </div>
+          </div>
+
+          <div class="card-foot">
+            <div class="badges">
+              <span class="badge">
+                <svg class="badge-icon icon-extension" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-extension"/></svg>
+                Browser Extension
+              </span>
+              <span class="badge">
+                <svg class="badge-icon icon-chrome" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chrome"/></svg>
+                Chrome
+              </span>
+              <span class="badge">
+                <svg class="badge-icon icon-firefox" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-firefox"/></svg>
+                Firefox
+              </span>
+              <span class="badge">
+                <svg class="badge-icon icon-edge" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-edge"/></svg>
+                Edge
               </span>
             </div>
+            <span class="card-go" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+            </span>
           </div>
-          <div class="phone" aria-hidden="true">
-            <img src="images/spinit_phone.webp" alt="" loading="lazy" onerror="this.style.display='none'"/>
-          </div>
-        </div>
-      </a>
+        </a>
 
-      <!-- 2. PREVIEWS - Tall flagship card (1 col x 2 rows) -->
-      <a class="card card--tall" href="https://previews-app.com/" target="_blank" rel="noopener noreferrer" aria-label="Previews - hover previews and quality-of-life tools for Twitch, YouTube, and Kick">
-        <!-- Banner (comment-out this block to remove the banner from this card) -->
-        <div class="card-banner-wrap">
-          <img class="card-banner" src="images/previews_banner.webp" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"/>
-        </div>
-        <div class="card-head">
-          <img class="card-icon" src="images/previews_logo.webp" alt="" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#9147ff,#5e2bff)'; this.removeAttribute('src');"/>
-          <div class="card-head-text">
-            <div class="card-title">Previews</div>
-            <div class="card-platform">
-              <svg class="platform-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-extension"/></svg>
-              Browser Extension
+        <a class="card" href="https://chromewebstore.google.com/detail/mouse4-go-back-block/iidgdkjgmdgkdkjinkdmhannbmghjdgc" target="_blank" rel="noopener noreferrer" aria-label="Mouse4 Go-Back Block - Chrome extension">
+          <!-- Banner (comment-out this block to remove the banner from this card) -->
+          <div class="card-banner-wrap">
+            <img class="card-banner" src="images/mouse4_banner.webp" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"/>
+          </div>
+          <div class="card-head">
+            <img class="card-icon" src="images/mouse4_logo.webp" alt="" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#3a3a3a,#1a1a1a)'; this.removeAttribute('src');"/>
+            <div class="card-head-text">
+              <div class="card-title">Mouse4 Go-Back Block</div>
+              <div class="card-platform">
+                <svg class="platform-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-extension"/></svg>
+                Browser Extension
+              </div>
             </div>
           </div>
-        </div>
-        <p class="card-desc">Live hover previews and quality-of-life tools for <strong style="color:var(--text)">Twitch</strong>, <strong style="color:var(--text)">YouTube</strong>, and <strong style="color:var(--text)">Kick</strong>. Sidebar favorites, FlashBang Defender, multi-stream, predictions sniper, and dozens more.</p>
+          <p class="card-desc">Stops the browser from going back when you press Mouse4 - perfect when Mouse4 is your push-to-talk in Discord or Teamspeak.</p>
+          <div class="card-foot">
+            <div class="badges">
+              <span class="badge">
+                <svg class="badge-icon icon-extension" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-extension"/></svg>
+                Browser Extension
+              </span>
+              <span class="badge">
+                <svg class="badge-icon icon-chrome" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chrome"/></svg>
+                Chrome
+              </span>
+            </div>
+            <span class="card-go" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+            </span>
+          </div>
+        </a>
 
-        <div class="stats">
-          <div class="stat-row">
-            <span class="stat-num">60,000+</span>
-            <span class="stat-label">Active Users</span>
+        <a class="card card--restricted" href="https://www.patreon.com/c/enhance_chaturbate" target="_blank" rel="noopener noreferrer" aria-label="Enhance Chaturbate - 18+ browser extension on Patreon">
+          <div class="card-head">
+            <div class="card-icon-fallback" aria-hidden="true">
+              <span class="age-text">18+</span>
+            </div>
+            <div class="card-head-text">
+              <div class="card-title">Enhance Chaturbate</div>
+              <div class="card-platform">
+                <svg class="platform-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-extension"/></svg>
+                Browser Extension
+              </div>
+            </div>
           </div>
-          <div class="stat-row">
-            <span class="stat-num">4.8 ★</span>
-            <span class="stat-label">Web Store Rating</span>
+          <p class="card-desc">Quality-of-life upgrades for Chaturbate.com. released on Patreon.</p>
+          <div class="card-foot">
+            <div class="badges">
+              <span class="badge badge--age">18+ Only</span>
+              <span class="badge">
+                <svg class="badge-icon icon-extension" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-extension"/></svg>
+                Browser Extension
+              </span>
+              <span class="badge">
+                <svg class="badge-icon icon-patreon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-patreon"/></svg>
+                Patreon
+              </span>
+            </div>
+            <span class="card-go" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+            </span>
           </div>
-          <div class="stat-row">
-            <span class="stat-num">Since '20</span>
-            <span class="stat-label">Maintained 6+ years</span>
-          </div>
-        </div>
+        </a>
 
-        <div class="card-foot">
-          <div class="badges">
-            <span class="badge">
-              <svg class="badge-icon icon-extension" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-extension"/></svg>
-              Browser Extension
-            </span>
-            <span class="badge">
-              <svg class="badge-icon icon-chrome" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chrome"/></svg>
-              Chrome
-            </span>
-            <span class="badge">
-              <svg class="badge-icon icon-firefox" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-firefox"/></svg>
-              Firefox
-            </span>
-            <span class="badge">
-              <svg class="badge-icon icon-edge" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-edge"/></svg>
-              Edge
-            </span>
-          </div>
-          <span class="card-go" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
-          </span>
-        </div>
-      </a>
+      </div>
+    </section>
 
-      <!-- 4. THEIR WALLPAPER -->
-      <a class="card" href="https://play.google.com/store/apps/details?id=markm.theirwallpaper" target="_blank" rel="noopener noreferrer" aria-label="Their Wallpaper - Android app">
-        <!-- Banner (comment-out this block to remove the banner from this card) -->
-        <div class="card-banner-wrap">
-          <img class="card-banner" src="images/theirwallpaper_banner.webp" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"/>
-        </div>
-        <span class="badge badge--soon">
-          <svg class="badge-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-bolt"/></svg>
-          Just Launched!
+    <!-- ===================== MOBILE APPS ===================== -->
+    <section class="section" aria-label="Mobile Apps">
+      <div class="section-head">
+        <span class="section-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><use href="#i-android"/></svg>
         </span>
-        <div class="card-head">
-          <img class="card-icon" src="images/theirwallpaper_logo.webp" alt="" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#3a3a3a,#1a1a1a)'; this.removeAttribute('src');"/>
-          <div class="card-head-text">
-            <div class="card-title">Their Wallpaper</div>
-            <div class="card-platform">
-              <svg class="platform-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-android"/></svg>
-              Android App
+        <h2 class="section-title">Mobile Apps</h2>
+        <span class="section-count">3 Projects</span>
+      </div>
+      <div class="section-grid grid-apps">
+
+        <a class="card" href="https://play.google.com/store/apps/details?id=markm.theirwallpaper" target="_blank" rel="noopener noreferrer" aria-label="Their Wallpaper - Android app">
+          <!-- Banner (comment-out this block to remove the banner from this card) -->
+          <div class="card-banner-wrap">
+            <img class="card-banner" src="images/theirwallpaper_banner.webp" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"/>
+          </div>
+          <span class="badge badge--soon">
+            <svg class="badge-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-bolt"/></svg>
+            Just Launched!
+          </span>
+          <div class="card-head">
+            <img class="card-icon" src="images/theirwallpaper_logo.webp" alt="" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#3a3a3a,#1a1a1a)'; this.removeAttribute('src');"/>
+            <div class="card-head-text">
+              <div class="card-title">Their Wallpaper</div>
+              <div class="card-platform">
+                <svg class="platform-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-android"/></svg>
+                Android App
+              </div>
             </div>
           </div>
-        </div>
-        <p class="card-desc">Remotely change your friend's home or lock screen wallpaper - instantly.</p>
-        <div class="card-foot">
-          <div class="badges">
-            <span class="badge">
-              <svg class="badge-icon icon-android" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-android"/></svg>
-              Android
-            </span>
-            <span class="badge">
-              <svg class="badge-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-heart"/></svg>
-              Social
+          <p class="card-desc">Remotely change your friend's home or lock screen wallpaper - instantly.</p>
+          <div class="card-foot">
+            <div class="badges">
+              <span class="badge">
+                <svg class="badge-icon icon-android" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-android"/></svg>
+                Android
+              </span>
+              <span class="badge">
+                <svg class="badge-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-heart"/></svg>
+                Social
+              </span>
+            </div>
+            <span class="card-go" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
             </span>
           </div>
-          <span class="card-go" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
-          </span>
-        </div>
-      </a>
+        </a>
 
-      <!-- 3. MOUSE4 GO-BACK BLOCK -->
-      <a class="card" href="https://chromewebstore.google.com/detail/mouse4-go-back-block/iidgdkjgmdgkdkjinkdmhannbmghjdgc" target="_blank" rel="noopener noreferrer" aria-label="Mouse4 Go-Back Block - Chrome extension">
-        <!-- Banner (comment-out this block to remove the banner from this card) -->
-        <div class="card-banner-wrap">
-          <img class="card-banner" src="images/mouse4_banner.webp" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"/>
-        </div>
-        <div class="card-head">
-          <img class="card-icon" src="images/mouse4_logo.webp" alt="" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#3a3a3a,#1a1a1a)'; this.removeAttribute('src');"/>
-          <div class="card-head-text">
-            <div class="card-title">Mouse4 Go-Back Block</div>
-            <div class="card-platform">
-              <svg class="platform-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-extension"/></svg>
-              Browser Extension
+        <a class="card" href="https://play.google.com/store/apps/details?id=markm.simplenotes" target="_blank" rel="noopener noreferrer" aria-label="Simple Notes - Android app">
+          <!-- Banner (comment-out this block to remove the banner from this card) -->
+          <div class="card-banner-wrap">
+            <img class="card-banner" src="images/simplenotes_banner.webp" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"/>
+          </div>
+          <div class="card-head">
+            <img class="card-icon" src="images/simplenotes_logo.webp" alt="" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#3a3a3a,#1a1a1a)'; this.removeAttribute('src');"/>
+            <div class="card-head-text">
+              <div class="card-title">Simple Notes</div>
+              <div class="card-platform">
+                <svg class="platform-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-android"/></svg>
+                Android App
+              </div>
             </div>
           </div>
-        </div>
-        <p class="card-desc">Stops the browser from going back when you press Mouse4 - perfect when Mouse4 is your push-to-talk in Discord or Teamspeak.</p>
-        <div class="card-foot">
-          <div class="badges">
-            <span class="badge">
-              <svg class="badge-icon icon-extension" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-extension"/></svg>
-              Browser Extension
-            </span>
-            <span class="badge">
-              <svg class="badge-icon icon-chrome" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chrome"/></svg>
-              Chrome
+          <p class="card-desc">A fast, focused note-taking app for whenever you need to jot something down. Optional PIN lock, tablet support, four languages.</p>
+          <div class="card-foot">
+            <div class="badges">
+              <span class="badge">
+                <svg class="badge-icon icon-android" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-android"/></svg>
+                Android
+              </span>
+              <span class="badge">
+                <svg class="badge-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-pencil"/></svg>
+                Productivity
+              </span>
+            </div>
+            <span class="card-go" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
             </span>
           </div>
-          <span class="card-go" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
-          </span>
-        </div>
-      </a>
+        </a>
 
-      <!-- 5. SIMPLE NOTES -->
-      <a class="card" href="https://play.google.com/store/apps/details?id=markm.simplenotes" target="_blank" rel="noopener noreferrer" aria-label="Simple Notes - Android app">
-        <!-- Banner (comment-out this block to remove the banner from this card) -->
-        <div class="card-banner-wrap">
-          <img class="card-banner" src="images/simplenotes_banner.webp" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"/>
-        </div>
-        <div class="card-head">
-          <img class="card-icon" src="images/simplenotes_logo.webp" alt="" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#3a3a3a,#1a1a1a)'; this.removeAttribute('src');"/>
-          <div class="card-head-text">
-            <div class="card-title">Simple Notes</div>
-            <div class="card-platform">
-              <svg class="platform-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-android"/></svg>
-              Android App
+        <a class="card" href="https://play.google.com/store/apps/details?id=markm.callstats" target="_blank" rel="noopener noreferrer" aria-label="Call Stats - Android app">
+          <!-- Banner (comment-out this block to remove the banner from this card) -->
+          <div class="card-banner-wrap">
+            <img class="card-banner" src="images/callstats_banner.webp" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"/>
+          </div>
+          <div class="card-head">
+            <img class="card-icon" src="images/callstats_logo.webp" alt="" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#3a3a3a,#1a1a1a)'; this.removeAttribute('src');"/>
+            <div class="card-head-text">
+              <div class="card-title">Call Stats</div>
+              <div class="card-platform">
+                <svg class="platform-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-android"/></svg>
+                Android App
+              </div>
             </div>
           </div>
-        </div>
-        <p class="card-desc">A fast, focused note-taking app for whenever you need to jot something down. Optional PIN lock, tablet support, four languages.</p>
-        <div class="card-foot">
-          <div class="badges">
-            <span class="badge">
-              <svg class="badge-icon icon-android" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-android"/></svg>
-              Android
-            </span>
-            <span class="badge">
-              <svg class="badge-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-pencil"/></svg>
-              Productivity
-            </span>
-          </div>
-          <span class="card-go" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
-          </span>
-        </div>
-      </a>
-
-      <!-- 6. CALL STATS -->
-      <a class="card" href="https://play.google.com/store/apps/details?id=markm.callstats" target="_blank" rel="noopener noreferrer" aria-label="Call Stats - Android app">
-        <!-- Banner (comment-out this block to remove the banner from this card) -->
-        <div class="card-banner-wrap">
-          <img class="card-banner" src="images/callstats_banner.webp" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"/>
-        </div>
-        <div class="card-head">
-          <img class="card-icon" src="images/callstats_logo.webp" alt="" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#3a3a3a,#1a1a1a)'; this.removeAttribute('src');"/>
-          <div class="card-head-text">
-            <div class="card-title">Call Stats</div>
-            <div class="card-platform">
-              <svg class="platform-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-android"/></svg>
-              Android App
+          <p class="card-desc">Track outgoing call time - daily, monthly, and all-time - right from your home screen. Resizable widget, customizable, billing-cycle aware.</p>
+          <div class="card-foot">
+            <div class="badges">
+              <span class="badge">
+                <svg class="badge-icon icon-android" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-android"/></svg>
+                Android
+              </span>
+              <span class="badge">
+                <svg class="badge-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wrench"/></svg>
+                Tools
+              </span>
             </div>
-          </div>
-        </div>
-        <p class="card-desc">Track outgoing call time - daily, monthly, and all-time - right from your home screen. Resizable widget, customizable, billing-cycle aware.</p>
-        <div class="card-foot">
-          <div class="badges">
-            <span class="badge">
-              <svg class="badge-icon icon-android" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-android"/></svg>
-              Android
-            </span>
-            <span class="badge">
-              <svg class="badge-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wrench"/></svg>
-              Tools
+            <span class="card-go" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
             </span>
           </div>
-          <span class="card-go" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
-          </span>
-        </div>
-      </a>
+        </a>
 
-      <!-- 7. ENHANCE CHATURBATE (18+) -->
-      <a class="card card--restricted" href="https://www.patreon.com/c/enhance_chaturbate" target="_blank" rel="noopener noreferrer" aria-label="Enhance Chaturbate - 18+ browser extension on Patreon">
-        <div class="card-head">
-          <div class="card-icon-fallback" aria-hidden="true">
-            <span class="age-text">18+</span>
-          </div>
-          <div class="card-head-text">
-            <div class="card-title">Enhance Chaturbate</div>
-            <div class="card-platform">
-              <svg class="platform-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-extension"/></svg>
-              Browser Extension
-            </div>
-          </div>
-        </div>
-        <p class="card-desc">Quality-of-life upgrades for Chaturbate.com. released on Patreon.</p>
-        <div class="card-foot">
-          <div class="badges">
-            <span class="badge badge--age">18+ Only</span>
-            <span class="badge">
-              <svg class="badge-icon icon-extension" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-extension"/></svg>
-              Browser Extension
-            </span>
-            <span class="badge">
-              <svg class="badge-icon icon-patreon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-patreon"/></svg>
-              Patreon
-            </span>
-          </div>
-          <span class="card-go" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
-          </span>
-        </div>
-      </a>
-
+      </div>
     </section>
   </div>
 
