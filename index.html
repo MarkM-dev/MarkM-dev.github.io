@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>MarkM - Projects</title>
-  <meta name="description" content="Mobile apps, Browser extensions & Misc. by MarkM Dev. Previews for Twitch/YouTube/Kick, Spin It! mobile game, and more."/>
+  <meta name="description" content="Mobile apps, Browser extensions & Misc. by MarkM Dev. Previews for Twitch/YouTube/Kick, Claude Status, Spin It! mobile game, and more."/>
   <meta name="theme-color" content="#0a0a0a"/>
 
   <!-- Favicon: inline SVG data URI (no external file needed) -->
@@ -24,7 +24,7 @@
   <meta property="og:locale" content="en_US"/>
   <meta property="og:url" content="https://markm-dev.github.io/"/>
   <meta property="og:title" content="MarkM - Side projects. Full effort."/>
-  <meta property="og:description" content="Mobile apps, Browser extensions & Misc. Previews for Twitch, YouTube & Kick. Spin It!, Their Wallpaper, Simple Notes, and more - used daily by 60,000+ people."/>
+  <meta property="og:description" content="Mobile apps, Browser extensions & Misc. Previews for Twitch, YouTube & Kick. Claude Status, Spin It!, Their Wallpaper, and more - used daily by 60,000+ people."/>
   <meta property="og:image" content="https://markm-dev.github.io/images/og-image.png"/>
   <meta property="og:image:secure_url" content="https://markm-dev.github.io/images/og-image.png"/>
   <meta property="og:image:type" content="image/png"/>
@@ -39,7 +39,7 @@
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:url" content="https://markm-dev.github.io/"/>
   <meta name="twitter:title" content="MarkM - Side projects. Full effort."/>
-  <meta name="twitter:description" content="Mobile apps, Browser extensions & Misc. Previews for Twitch, YouTube & Kick. Spin It!, Their Wallpaper, Simple Notes, and more - used daily by 60,000+ people."/>
+  <meta name="twitter:description" content="Mobile apps, Browser extensions & Misc. Previews for Twitch, YouTube & Kick. Claude Status, Spin It!, Their Wallpaper, and more - used daily by 60,000+ people."/>
   <meta name="twitter:image" content="https://markm-dev.github.io/images/og-image.png"/>
   <meta name="twitter:image:alt" content="MarkM - Side projects. Full effort. Mobile apps, Browser extensions & Misc."/>
 
@@ -319,9 +319,14 @@
     .grid-games .card--featured { grid-column: auto; }
     /* Mobile apps - even 3-up row */
     .grid-apps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    /* Browser extensions - tall flagship on the left, two stacked on the right */
-    .grid-ext { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    /* Browser extensions - tall flagship on the left, two stacked on the right,
+       and a full-width strip on the last row so the grid packs exactly. */
+    .grid-ext {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-auto-rows: minmax(0, auto);
+    }
     .grid-ext .card--featured { grid-column: auto; }
+    .grid-ext .card--restricted { grid-column: span 2; }
 
     /* ========== CARD ========== */
     .card {
@@ -798,6 +803,9 @@
       .section-grid { gap: 0.85rem; }
       .grid-apps, .grid-ext { grid-template-columns: 1fr; }
       .grid-ext .card--tall { grid-row: auto; grid-column: auto; }
+      /* Needs the same two-class specificity as the desktop span rule, or the
+         strip would ask for a second column that does not exist here. */
+      .grid-ext .card--restricted { grid-column: auto; }
       .card, .card--featured, .card--tall { --card-pad: 1.15rem; }
       .card--featured, .card--tall, .card--restricted { grid-column: auto; grid-row: auto; }
       .card--featured .card-inner {
@@ -922,10 +930,6 @@
           </div> -->
           <div class="card-inner">
             <div class="feature-text">
-              <span class="badge badge--soon">
-                <svg class="badge-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-bolt"/></svg>
-                Just Launched!
-              </span>
               <div class="feature-head">
                 <img class="feature-icon" src="images/spinit_logo.webp" alt="" loading="lazy" onerror="this.onerror=null; this.removeAttribute('src');"/>
                 <h3 class="feature-title">Spin It!</h3>
@@ -965,7 +969,7 @@
           <svg viewBox="0 0 24 24"><use href="#i-extension"/></svg>
         </span>
         <h2 class="section-title">Browser Extensions</h2>
-        <span class="section-count">3 Projects</span>
+        <span class="section-count">4 Projects</span>
       </div>
       <div class="section-grid grid-ext">
 
@@ -1018,6 +1022,43 @@
               <span class="badge">
                 <svg class="badge-icon icon-edge" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-edge"/></svg>
                 Edge
+              </span>
+            </div>
+            <span class="card-go" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+            </span>
+          </div>
+        </a>
+
+        <a class="card" href="https://chromewebstore.google.com/detail/claude-status/iojceaomgledlapgeanpekcigmpcgmee" target="_blank" rel="noopener noreferrer" aria-label="Claude Status - browser extension showing whether Claude is up">
+          <!-- Banner (comment-out this block to remove the banner from this card) -->
+          <!-- <div class="card-banner-wrap">
+            <img class="card-banner" src="images/claudestatus_banner.webp" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"/>
+          </div> -->
+          <span class="badge badge--soon">
+            <svg class="badge-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-bolt"/></svg>
+            Just Launched!
+          </span>
+          <div class="card-head">
+            <img class="card-icon" src="images/claudestatus_logo.webp" alt="" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#d97757,#8f4a34)'; this.removeAttribute('src');"/>
+            <div class="card-head-text">
+              <div class="card-title">Claude Status</div>
+              <div class="card-platform">
+                <svg class="platform-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-extension"/></svg>
+                Browser Extension
+              </div>
+            </div>
+          </div>
+          <p class="card-desc">Know if Claude is down before you assume it's you - a live status badge in your toolbar, plus an optional dot inside claude.ai.</p>
+          <div class="card-foot">
+            <div class="badges">
+              <span class="badge">
+                <svg class="badge-icon icon-extension" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-extension"/></svg>
+                Browser Extension
+              </span>
+              <span class="badge">
+                <svg class="badge-icon icon-chrome" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chrome"/></svg>
+                Chrome
               </span>
             </div>
             <span class="card-go" aria-hidden="true">
@@ -1110,10 +1151,6 @@
           <!-- <div class="card-banner-wrap">
             <img class="card-banner" src="images/theirwallpaper_banner.webp" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"/>
           </div> -->
-          <span class="badge badge--soon">
-            <svg class="badge-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-bolt"/></svg>
-            Just Launched!
-          </span>
           <div class="card-head">
             <img class="card-icon" src="images/theirwallpaper_logo.webp" alt="" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#3a3a3a,#1a1a1a)'; this.removeAttribute('src');"/>
             <div class="card-head-text">
