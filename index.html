@@ -7,18 +7,10 @@
   <meta name="description" content="Mobile apps, Browser extensions & Misc. by MarkM Dev. Previews for Twitch/YouTube/Kick, Claude Status, Spin It! mobile game, and more."/>
   <meta name="theme-color" content="#0a0a0a"/>
 
-  <!-- Favicon: inline SVG data URI (no external file needed) -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0a0a'/%3E%3Cpath d='M14 50 L14 14 L32 38 L50 14 L50 50' fill='none' stroke='%2300E5FF' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"/>
 
-  <!-- Canonical URL: tells search engines and social aggregators the
-       authoritative URL for this page. Keep in sync with og:url. -->
   <link rel="canonical" href="https://markm-dev.github.io/"/>
 
-  <!-- ========== Open Graph ==========
-       Used by WhatsApp, Discord, Slack, LinkedIn, Facebook, iMessage,
-       Telegram, Signal, and many link unfurlers. The og:image MUST be
-       an absolute HTTPS URL (relative paths do not work for crawlers).
-       Standard size: 1200x630 px. -->
   <meta property="og:type" content="website"/>
   <meta property="og:site_name" content="MarkM Dev"/>
   <meta property="og:locale" content="en_US"/>
@@ -32,10 +24,6 @@
   <meta property="og:image:height" content="630"/>
   <meta property="og:image:alt" content="MarkM - Side projects. Full effort. Mobile apps, Browser extensions & Misc."/>
 
-  <!-- ========== Twitter / X Card ==========
-       X uses these specifically; falls back to og:* if missing, but having
-       them gives full control. summary_large_image renders the wide
-       banner-style preview (vs the small thumbnail variant). -->
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:url" content="https://markm-dev.github.io/"/>
   <meta name="twitter:title" content="MarkM - Side projects. Full effort."/>
@@ -64,10 +52,6 @@
       --border-strong: #2a2a2a;
 
       --font-display: 'Syne', system-ui, sans-serif;
-      /* Project names: Space Grotesk reads far cleaner than Syne at card sizes.
-         Swap the first family here to change every project name at once.
-         Other good options: 'Bricolage Grotesque', 'Plus Jakarta Sans', 'Outfit', 'Manrope'
-         (remember to update the Google Fonts <link> above to match). */
       --font-title: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
       --font-mono: 'DM Mono', ui-monospace, monospace;
 
@@ -90,7 +74,6 @@
       text-rendering: optimizeLegibility;
     }
 
-    /* Background layers: grid + soft radial glow */
     body::before {
       content: '';
       position: fixed;
@@ -124,7 +107,6 @@
       flex-direction: column;
     }
 
-    /* ========== HEADER (top-left, compact) ========== */
     .site-header {
       position: relative;
       z-index: 3;
@@ -157,7 +139,6 @@
       margin-left: 0.15em;
     }
 
-    /* Email button (compact version, all original animations preserved) */
     .btn-wrap {
       position: relative;
       display: inline-block;
@@ -206,7 +187,6 @@
 
     .contact-btn svg { width: 13px; height: 13px; flex-shrink: 0; }
 
-    /* ========== HERO ========== */
     .hero {
       position: relative;
       z-index: 1;
@@ -260,7 +240,6 @@
       margin: 0 auto;
     }
 
-    /* ========== GRID ========== */
     .grid-wrap {
       max-width: 1180px;
       width: 100%;
@@ -268,11 +247,6 @@
       padding: 0.5rem 1.5rem 2rem;
     }
 
-    /* ========== SECTIONS ==========
-       Projects are grouped into labelled categories (Games, Mobile Apps,
-       Browser Extensions). Each section has a header and its own grid so
-       the layout reads as distinct, scannable groups rather than one big
-       wall of cards. */
     .section { margin: 0 0 2.4rem; }
     .section:last-child { margin-bottom: 0; }
 
@@ -313,19 +287,14 @@
       white-space: nowrap;
     }
 
-    /* Each section gets its own grid. They share spacing + row sizing. */
     .section-grid {
       display: grid;
       gap: 1rem;
       grid-auto-rows: minmax(180px, auto);
     }
-    /* Games - single full-width hero card */
     .grid-games { grid-template-columns: 1fr; }
     .grid-games .card--featured { grid-column: auto; }
-    /* Mobile apps - even 3-up row */
     .grid-apps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    /* Browser extensions - tall flagship on the left, two stacked on the right,
-       and a full-width strip on the last row so the grid packs exactly. */
     .grid-ext {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       grid-auto-rows: minmax(0, auto);
@@ -333,7 +302,6 @@
     .grid-ext .card--featured { grid-column: auto; }
     .grid-ext .card--restricted { grid-column: span 2; }
 
-    /* ========== CARD ========== */
     .card {
       --card-pad: 1.25rem;
       position: relative;
@@ -353,7 +321,6 @@
     }
 
     .card::before {
-      /* Subtle inner highlight on top edge */
       content: '';
       position: absolute;
       inset: 0 0 auto 0;
@@ -362,15 +329,6 @@
       pointer-events: none;
     }
 
-    /* ========== CARD BANNER ==========
-       A self-contained block at the top of a card. Bleeds into the card padding
-       via negative margins so it's flush with the card edges (Google Play
-       "feature graphic" style). Each card has its own --card-pad CSS variable
-       so this works regardless of card variant or viewport.
-
-       The banner element is fully optional - commenting out the
-       <div class="card-banner-wrap">...</div> from any card removes it cleanly
-       without affecting the rest of the layout. */
     .card-banner-wrap {
       margin: calc(var(--card-pad) * -1) calc(var(--card-pad) * -1) 1.1rem;
       border-radius: var(--radius) var(--radius) 0 0;
@@ -379,12 +337,9 @@
       background: var(--surface-2);
       flex-shrink: 0;
       position: relative;
-      /* Slightly darker top edge to anchor the image to the card */
       box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset;
     }
     .card-banner-wrap::after {
-      /* Gentle gradient at the bottom of the banner so it transitions
-         smoothly into the card surface below, with no hard edge. */
       content: '';
       position: absolute;
       inset: auto 0 0 0;
@@ -399,8 +354,6 @@
       object-fit: cover;
       transition: transform 0.6s var(--tx), filter 0.4s var(--tx);
     }
-    /* Gentle parallax-y zoom + brightness on hover - keeps the card lively
-       without competing with the card-icon hover effect below. */
     .card:hover .card-banner {
       transform: scale(1.03);
       filter: brightness(1.05) saturate(1.08);
@@ -499,7 +452,6 @@
       white-space: nowrap;
       line-height: 1;
     }
-    /* Icons inside badges: sized to match text, color via class */
     .badge-icon {
       width: 11px;
       height: 11px;
@@ -508,9 +460,6 @@
       vertical-align: middle;
     }
 
-    /* Brand-color helpers for icons. Applied to the <svg class="badge-icon ..."> wrapper.
-       The inner <use> references a <symbol> whose path uses fill:currentColor,
-       so setting color here colors the icon. */
     .icon-chrome   { color: #4285F4; }
     .icon-firefox  { color: #FF7139; }
     .icon-edge     { color: #0078D4; }
@@ -528,20 +477,30 @@
       box-shadow: 0 0 18px rgba(0,229,255,0.35);
       animation: glowPulse 2.4s ease-in-out infinite;
     }
-    /* The "Just Launched!" badge wants a more prominent bolt than the
-       11px default - bumps the icon to ~14px so it reads at a glance. */
     .badge--soon .badge-icon {
       width: 14px;
       height: 14px;
       margin-right: -0.05rem;
     }
 
-    /* When a "Just Launched" badge sits at the top of a regular card,
-       don't let the column flex container stretch it edge-to-edge -
-       keep it pill-shaped and give it breathing room below. */
     .card > .badge--soon {
-      align-self: flex-start;
+      align-self: flex-end;
       margin-bottom: 0.7rem;
+    }
+
+    .card { container-type: inline-size; }
+
+    @container (min-width: 350px) {
+      .card > .badge--soon {
+        position: absolute;
+        top: var(--card-pad);
+        right: var(--card-pad);
+        z-index: 2;
+        margin-bottom: 0;
+      }
+      .card:has(> .badge--soon) .card-head {
+        padding-right: 9.5rem;
+      }
     }
 
     .card-go {
@@ -564,7 +523,6 @@
       transform: translate(2px, -2px) rotate(0deg);
     }
 
-    /* ========== FEATURED CARD (Spin It!) ========== */
     .card--featured {
       --card-pad: 1.5rem;
       grid-column: span 2;
@@ -625,7 +583,6 @@
       font-weight: 600;
     }
 
-    /* Phone-style mockup using the Spin It title screen */
     .phone {
       position: relative;
       width: 130px;
@@ -648,7 +605,6 @@
       display: block;
     }
     .phone::after {
-      /* Fake notch */
       content: '';
       position: absolute;
       bottom: 6px; left: 50%;
@@ -661,7 +617,6 @@
       transform: rotate(0deg) translateY(-3px);
     }
 
-    /* ========== TALL CARD (Previews) ========== */
     .card--tall {
       --card-pad: 1.5rem;
       grid-row: span 2;
@@ -710,7 +665,6 @@
       text-transform: uppercase;
     }
 
-    /* ========== ENHANCE / RESTRICTED ========== */
     .card--restricted .card-icon-fallback {
       width: 52px; height: 52px;
       border-radius: 12px;
@@ -723,9 +677,6 @@
       width: 22px; height: 22px;
       color: var(--accent-warm);
     }
-    /* Bold "18+" text used as the project icon - matches the pink accent
-       and signals the audience-restriction at a glance. Uses DM Mono so the
-       digits keep uniform proportions (Syne's "8" reads as oversized here). */
     .card--restricted .age-text {
       font-family: var(--font-mono);
       font-weight: 500;
@@ -736,7 +687,6 @@
       text-shadow: 0 0 14px rgba(255,64,129,0.35);
     }
 
-    /* ========== FOOTER ========== */
     .footer {
       margin-top: auto;
       padding: 1.5rem 1.5rem 1.4rem;
@@ -757,7 +707,6 @@
     }
     .footer a:hover { color: var(--accent); }
 
-    /* ========== ANIMATIONS ========== */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(14px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -775,7 +724,6 @@
       50% { box-shadow: 0 0 26px rgba(0,229,255,0.55); }
     }
 
-    /* Stagger delays for cards */
     .card:nth-child(1) { animation-delay: 0.18s; }
     .card:nth-child(2) { animation-delay: 0.24s; }
     .card:nth-child(3) { animation-delay: 0.30s; }
@@ -784,12 +732,8 @@
     .card:nth-child(6) { animation-delay: 0.48s; }
     .card:nth-child(7) { animation-delay: 0.54s; }
 
-    /* ========== RESPONSIVE ========== */
     @media (max-width: 960px) {
-      /* Mobile apps drop to a 2-up grid */
       .grid-apps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      /* Browser extensions: tall flagship spans full width on top, the two
-         smaller cards sit 2-up beneath it */
       .grid-ext { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .grid-ext .card--tall { grid-row: span 1; grid-column: span 2; }
       .card--tall .stats { flex-direction: row; gap: 1.5rem; flex-wrap: wrap; }
@@ -810,8 +754,6 @@
       .section-grid { gap: 0.85rem; }
       .grid-apps, .grid-ext { grid-template-columns: 1fr; }
       .grid-ext .card--tall { grid-row: auto; grid-column: auto; }
-      /* Needs the same two-class specificity as the desktop span rule, or the
-         strip would ask for a second column that does not exist here. */
       .grid-ext .card--restricted { grid-column: auto; }
       .card, .card--featured, .card--tall { --card-pad: 1.15rem; }
       .card--featured, .card--tall, .card--restricted { grid-column: auto; grid-row: auto; }
@@ -835,7 +777,6 @@
       .card--tall .stats { flex-direction: column; gap: 0.55rem; }
     }
 
-    /* Extra-narrow phones (< 400px) - squeeze a bit more */
     @media (max-width: 400px) {
       .site-header { padding: 0.85rem 0.9rem 0.4rem; }
       .brand { font-size: 1.2rem; }
@@ -865,23 +806,14 @@
 </head>
 <body>
 
-<!-- ========================================================
-     SVG icon sprite - defines all reusable icons once so each
-     can be referenced via <svg><use href="#i-..."/></svg>.
-     Hidden, doesn't take layout space, doesn't load anything
-     external - works offline / behind firewalls / with ad blockers.
-     Brand-icon paths sourced from Simple Icons (simpleicons.org).
-     ======================================================== -->
 <svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
   <defs>
-    <!-- Brand icons (single path, currentColor - color set by parent class) -->
     <symbol id="i-chrome" viewBox="0 0 24 24"><path fill="currentColor" d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0zM1.931 5.47A11.943 11.943 0 0 0 0 12c0 6.012 4.42 10.991 10.189 11.864l3.953-6.847a5.45 5.45 0 0 1-6.865-2.29zm13.342 2.166a5.446 5.446 0 0 1 1.45 7.09l.002.001h-.002l-5.344 9.257c.206.01.413.016.621.016 6.627 0 12-5.373 12-12 0-1.54-.29-3.011-.818-4.364zM12 16.364a4.364 4.364 0 1 1 0-8.728 4.364 4.364 0 0 1 0 8.728Z"/></symbol>
     <symbol id="i-firefox" viewBox="0 0 24 24"><path fill="currentColor" d="M8.824 7.287c.008 0 .004 0 0 0zm-2.8-1.4c.006 0 .003 0 0 0zm16.754 2.161c-.505-1.215-1.53-2.528-2.333-2.943.654 1.283 1.033 2.57 1.177 3.53l.002.02c-1.314-3.278-3.544-4.6-5.366-7.477-.091-.147-.184-.292-.273-.446a3.545 3.545 0 01-.13-.24 2.118 2.118 0 01-.172-.46.03.03 0 00-.027-.03.038.038 0 00-.021 0l-.006.001a.037.037 0 00-.01.005L15.624 0c-2.585 1.515-3.657 4.168-3.932 5.856a6.197 6.197 0 00-2.305.587.297.297 0 00-.147.37c.057.162.24.24.396.17a5.622 5.622 0 012.008-.523l.067-.005a5.847 5.847 0 011.957.222l.095.03a5.816 5.816 0 01.616.228c.08.036.16.073.238.112l.107.055a5.835 5.835 0 01.368.211 5.953 5.953 0 012.034 2.104c-.62-.437-1.733-.868-2.803-.681 4.183 2.09 3.06 9.292-2.737 9.02a5.164 5.164 0 01-1.513-.292 4.42 4.42 0 01-.538-.232c-1.42-.735-2.593-2.121-2.74-3.806 0 0 .537-2 3.845-2 .357 0 1.38-.998 1.398-1.287-.005-.095-2.029-.9-2.817-1.677-.422-.416-.622-.616-.8-.767a3.47 3.47 0 00-.301-.227 5.388 5.388 0 01-.032-2.842c-1.195.544-2.124 1.403-2.8 2.163h-.006c-.46-.584-.428-2.51-.402-2.913-.006-.025-.343.176-.389.206-.406.29-.787.616-1.136.974-.397.403-.76.839-1.085 1.303a9.816 9.816 0 00-1.562 3.52c-.003.013-.11.487-.19 1.073-.013.09-.026.181-.037.272a7.8 7.8 0 00-.069.667l-.002.034-.023.387-.001.06C.386 18.795 5.593 24 12.016 24c5.752 0 10.527-4.176 11.463-9.661.02-.149.035-.298.052-.448.232-1.994-.025-4.09-.753-5.844z"/></symbol>
     <symbol id="i-edge" viewBox="0 0 24 24"><path fill="currentColor" d="M21.86 17.86q.14 0 .25.12.1.13.1.25t-.11.33l-.32.46-.43.53-.44.5q-.21.25-.38.42l-.22.23q-.58.53-1.34 1.04-.76.51-1.6.91-.86.4-1.74.64t-1.67.24q-.9 0-1.69-.28-.8-.28-1.48-.78-.68-.5-1.22-1.17-.53-.66-.92-1.44-.38-.77-.58-1.6-.2-.83-.2-1.67 0-1 .32-1.96.33-.97.87-1.8.14.95.55 1.77.41.82 1.02 1.5.6.68 1.38 1.21.78.54 1.64.9.86.36 1.77.56.92.2 1.8.2 1.12 0 2.18-.24 1.06-.23 2.06-.72l.2-.1.2-.05zm-15.5-1.27q0 1.1.27 2.15.27 1.06.78 2.03.51.96 1.24 1.77.74.82 1.66 1.4-1.47-.2-2.8-.74-1.33-.55-2.48-1.37-1.15-.83-2.08-1.9-.92-1.07-1.58-2.33T.36 14.94Q0 13.54 0 12.06q0-.81.32-1.49.31-.68.83-1.23.53-.55 1.2-.96.66-.4 1.35-.66.74-.27 1.5-.39.78-.12 1.55-.12.7 0 1.42.1.72.12 1.4.35.68.23 1.32.57.63.35 1.16.83-.35 0-.7.07-.33.07-.65.23v-.02q-.63.28-1.2.74-.57.46-1.05 1.04-.48.58-.87 1.26-.38.67-.65 1.39-.27.71-.42 1.44-.15.72-.15 1.38zM11.96.06q1.7 0 3.33.39 1.63.38 3.07 1.15 1.43.77 2.62 1.93 1.18 1.16 1.98 2.7.49.94.76 1.96.28 1 .28 2.08 0 .89-.23 1.7-.24.8-.69 1.48-.45.68-1.1 1.22-.64.53-1.45.88-.54.24-1.11.36-.58.13-1.16.13-.42 0-.97-.03-.54-.03-1.1-.12-.55-.1-1.05-.28-.5-.19-.84-.5-.12-.09-.23-.24-.1-.16-.1-.33 0-.15.16-.35.16-.2.35-.5.2-.28.36-.68.16-.4.16-.95 0-1.06-.4-1.96-.4-.91-1.06-1.64-.66-.74-1.52-1.28-.86-.55-1.79-.89-.84-.3-1.72-.44-.87-.14-1.76-.14-1.55 0-3.06.45T.94 7.55q.71-1.74 1.81-3.13 1.1-1.38 2.52-2.35Q6.68 1.1 8.37.58q1.7-.52 3.58-.52Z"/></symbol>
     <symbol id="i-android" viewBox="0 0 24 24"><path fill="currentColor" d="M18.4395 5.5586c-.675 1.1664-1.352 2.3318-2.0274 3.498-.0366-.0155-.0742-.0286-.1113-.043-1.8249-.6957-3.484-.8-4.42-.787-1.8551.0185-3.3544.4643-4.2597.8203-.084-.1494-1.7526-3.021-2.0215-3.4864a1.1451 1.1451 0 0 0-.1406-.1914c-.3312-.364-.9054-.4859-1.379-.203-.475.282-.7136.9361-.3886 1.5019 1.9466 3.3696-.0966-.2158 1.9473 3.3593.0172.031-.4946.2642-1.3926 1.0177C2.8987 12.176.452 14.772 0 18.9902h24c-.119-1.1108-.3686-2.099-.7461-3.0683-.7438-1.9118-1.8435-3.2928-2.7402-4.1836a12.1048 12.1048 0 0 0-2.1309-1.6875c.6594-1.122 1.312-2.2559 1.9649-3.3848.2077-.3615.1886-.7956-.0079-1.1191a1.1001 1.1001 0 0 0-.8515-.5332c-.5225-.0536-.9392.3128-1.0488.5449zm-.0391 8.461c.3944.5926.324 1.3306-.1563 1.6503-.4799.3197-1.188.0985-1.582-.4941-.3944-.5927-.324-1.3307.1563-1.6504.4727-.315 1.1812-.1086 1.582.4941zM7.207 13.5273c.4803.3197.5506 1.0577.1563 1.6504-.394.5926-1.1038.8138-1.584.4941-.48-.3197-.5503-1.0577-.1563-1.6504.4008-.6021 1.1087-.8106 1.584-.4941z"/></symbol>
     <symbol id="i-patreon" viewBox="0 0 24 24"><path fill="currentColor" d="M22.957 7.21c-.004-3.064-2.391-5.576-5.191-6.482-3.478-1.125-8.064-.962-11.384.604C2.357 3.231 1.093 7.391 1.046 11.54c-.039 3.411.302 12.396 5.369 12.46 3.765.047 4.326-4.804 6.068-7.141 1.24-1.662 2.836-2.132 4.801-2.618 3.376-.836 5.678-3.501 5.673-7.031Z"/></symbol>
 
-    <!-- Generic icons (Material/Heroicons style, single path, currentColor) -->
     <symbol id="i-extension" viewBox="0 0 24 24"><path fill="currentColor" d="M20.5 11H19V7c0-1.1-.9-2-2-2h-4V3.5C13 2.12 11.88 1 10.5 1S8 2.12 8 3.5V5H4c-1.1 0-2 .9-2 2v3.5h1.5c1.38 0 2.5 1.12 2.5 2.5S4.88 15.5 3.5 15.5H2V19c0 1.1.9 2 2 2h3.5v-1.5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5V21H17c1.1 0 2-.9 2-2v-4h1.5c1.38 0 2.5-1.12 2.5-2.5S21.88 11 20.5 11z"/></symbol>
     <symbol id="i-gamepad" viewBox="0 0 24 24"><path fill="currentColor" d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM11 13H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 9 19.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></symbol>
     <symbol id="i-heart" viewBox="0 0 24 24"><path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></symbol>
@@ -894,7 +826,7 @@
 <div class="page">
 
   <header class="site-header">
-    <h1 class="brand">Mark<span id="accent-m">M</span><!-- <span class="dev"> Dev</span> --></h1>
+    <h1 class="brand">Mark<span id="accent-m">M</span></h1>
 
     <div class="btn-wrap" id="btn-wrap">
       <a class="contact-btn" id="email-btn" href="mailto:markm.dev@gmail.com">
@@ -919,7 +851,6 @@
 
   <div class="grid-wrap">
 
-    <!-- ===================== GAMES ===================== -->
     <section class="section" aria-label="Games">
       <div class="section-head">
         <span class="section-icon" aria-hidden="true">
@@ -931,10 +862,6 @@
       <div class="section-grid grid-games">
 
         <a class="card card--featured" href="https://play.google.com/store/apps/details?id=com.spinitgame.spinit" target="_blank" rel="noopener noreferrer" aria-label="Spin It! - competitive swiping mobile game">
-          <!-- Banner (comment-out this block to remove the banner from this card) -->
-          <!-- <div class="card-banner-wrap" style="aspect-ratio: 1024 / 244;" >
-            <img class="card-banner" src="images/spinit_banner.webp" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"/>
-          </div> -->
           <div class="card-inner">
             <div class="feature-text">
               <div class="feature-head">
@@ -969,7 +896,6 @@
       </div>
     </section>
 
-    <!-- ===================== BROWSER EXTENSIONS ===================== -->
     <section class="section" aria-label="Browser Extensions">
       <div class="section-head">
         <span class="section-icon" aria-hidden="true">
@@ -981,10 +907,6 @@
       <div class="section-grid grid-ext">
 
         <a class="card card--tall" href="https://previews-app.com/" target="_blank" rel="noopener noreferrer" aria-label="Previews - hover previews and quality-of-life tools for Twitch, YouTube, and Kick">
-          <!-- Banner (comment-out this block to remove the banner from this card) -->
-          <!-- <div class="card-banner-wrap">
-            <img class="card-banner" src="images/previews_banner.webp" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"/>
-          </div> -->
           <div class="card-head">
             <img class="card-icon" src="images/previews_logo.webp" alt="" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#9147ff,#5e2bff)'; this.removeAttribute('src');"/>
             <div class="card-head-text">
@@ -1038,10 +960,6 @@
         </a>
 
         <a class="card" href="https://chromewebstore.google.com/detail/claude-status/iojceaomgledlapgeanpekcigmpcgmee" target="_blank" rel="noopener noreferrer" aria-label="Claude Status - browser extension showing whether Claude is up">
-          <!-- Banner (comment-out this block to remove the banner from this card) -->
-          <!-- <div class="card-banner-wrap">
-            <img class="card-banner" src="images/claudestatus_banner.webp" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"/>
-          </div> -->
           <span class="badge badge--soon">
             <svg class="badge-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-bolt"/></svg>
             Just Launched!
@@ -1075,10 +993,6 @@
         </a>
 
         <a class="card" href="https://chromewebstore.google.com/detail/mouse4-go-back-block/iidgdkjgmdgkdkjinkdmhannbmghjdgc" target="_blank" rel="noopener noreferrer" aria-label="Mouse4 Go-Back Block - Chrome extension">
-          <!-- Banner (comment-out this block to remove the banner from this card) -->
-          <!-- <div class="card-banner-wrap">
-            <img class="card-banner" src="images/mouse4_banner.webp" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"/>
-          </div> -->
           <div class="card-head">
             <img class="card-icon" src="images/mouse4_logo.webp" alt="" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#3a3a3a,#1a1a1a)'; this.removeAttribute('src');"/>
             <div class="card-head-text">
@@ -1142,7 +1056,6 @@
       </div>
     </section>
 
-    <!-- ===================== MOBILE APPS ===================== -->
     <section class="section" aria-label="Mobile Apps">
       <div class="section-head">
         <span class="section-icon" aria-hidden="true">
@@ -1154,10 +1067,6 @@
       <div class="section-grid grid-apps">
 
         <a class="card" href="https://play.google.com/store/apps/details?id=markm.theirwallpaper" target="_blank" rel="noopener noreferrer" aria-label="Their Wallpaper - Android app">
-          <!-- Banner (comment-out this block to remove the banner from this card) -->
-          <!-- <div class="card-banner-wrap">
-            <img class="card-banner" src="images/theirwallpaper_banner.webp" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"/>
-          </div> -->
           <div class="card-head">
             <img class="card-icon" src="images/theirwallpaper_logo.webp" alt="" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#3a3a3a,#1a1a1a)'; this.removeAttribute('src');"/>
             <div class="card-head-text">
@@ -1187,10 +1096,6 @@
         </a>
 
         <a class="card" href="https://play.google.com/store/apps/details?id=markm.simplenotes" target="_blank" rel="noopener noreferrer" aria-label="Simple Notes - Android app">
-          <!-- Banner (comment-out this block to remove the banner from this card) -->
-          <!-- <div class="card-banner-wrap">
-            <img class="card-banner" src="images/simplenotes_banner.webp" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"/>
-          </div> -->
           <div class="card-head">
             <img class="card-icon" src="images/simplenotes_logo.webp" alt="" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#3a3a3a,#1a1a1a)'; this.removeAttribute('src');"/>
             <div class="card-head-text">
@@ -1220,10 +1125,6 @@
         </a>
 
         <a class="card" href="https://play.google.com/store/apps/details?id=markm.callstats" target="_blank" rel="noopener noreferrer" aria-label="Call Stats - Android app">
-          <!-- Banner (comment-out this block to remove the banner from this card) -->
-          <!-- <div class="card-banner-wrap">
-            <img class="card-banner" src="images/callstats_banner.webp" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"/>
-          </div> -->
           <div class="card-head">
             <img class="card-icon" src="images/callstats_logo.webp" alt="" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#3a3a3a,#1a1a1a)'; this.removeAttribute('src');"/>
             <div class="card-head-text">
@@ -1314,7 +1215,6 @@ function pillPt(t,rc) {
   return{x:rc.left+r+Math.cos(a)*r,y:rc.top+r+Math.sin(a)*r};
 }
 
-/* 1 - ORBIT COMET */
 function animOrbitComet(col,done){
   const rc=emailBtn.getBoundingClientRect();
   const tc=Object.assign(document.createElement('canvas'),{width:innerWidth,height:innerHeight});
@@ -1330,9 +1230,6 @@ function animOrbitComet(col,done){
   (function step(now){
     const p=Math.min((now-t0)/DUR,1),ep=p<.5?2*p*p:-1+(4-2*p)*p;
     const pt=pillPt(ep,rc);
-    /* Fade existing trail pixels without darkening the page.
-       Using destination-out only affects pixels we previously drew -
-       transparent areas (the rest of the page) stay transparent. */
     tctx.globalCompositeOperation='destination-out';
     tctx.fillStyle='rgba(0,0,0,0.18)';
     tctx.fillRect(0,0,tc.width,tc.height);
@@ -1349,7 +1246,6 @@ function animOrbitComet(col,done){
   })(t0);
 }
 
-/* 2 - LIQUID FILL */
 function animLiquidFill(col,done){
   btnFill.style.cssText=`position:absolute;top:0;left:0;bottom:0;width:0;
     background:${col};z-index:0;border-radius:999px;pointer-events:none;`;
@@ -1364,7 +1260,6 @@ function animLiquidFill(col,done){
   })(t0);
 }
 
-/* 3 - RIPPLE BURST */
 function animRippleBurst(col,done){
   const rc=emailBtn.getBoundingClientRect();
   const cx=rc.left+rc.width/2,cy=rc.top+rc.height/2;
@@ -1389,7 +1284,6 @@ function animRippleBurst(col,done){
   }
 }
 
-/* 4 - CHROMATIC GLITCH */
 function animGlitch(col,done){
   kf('glitch-jit',`
     0%{transform:translate(0,0)skewX(0)}8%{transform:translate(-5px,2px)skewX(-4deg)}
@@ -1410,7 +1304,6 @@ function animGlitch(col,done){
   },650);
 }
 
-/* 5 - NEON SCAN */
 function animNeonScan(col,done){
   const reveal=document.createElement('div');
   reveal.style.cssText=`position:absolute;top:0;left:0;height:100%;width:0;
@@ -1431,7 +1324,6 @@ function animNeonScan(col,done){
   })(t0);
 }
 
-/* 6 - ELASTIC BOUNCE */
 function animElasticBounce(col,done){
   kf('el-bounce',`
     0%{transform:scaleX(1)scaleY(1)translateY(0)}
@@ -1449,7 +1341,6 @@ function animElasticBounce(col,done){
   setTimeout(()=>{emailBtn.style.animation='';emailBtn.style.transformOrigin='';done();},920);
 }
 
-/* 7 - GLOW BLOOM */
 function animGlowBloom(col,done){
   const DUR=1000,t0=performance.now();let sw=false;
   (function step(now){
@@ -1462,7 +1353,6 @@ function animGlowBloom(col,done){
   })(t0);
 }
 
-/* 8 - MAGNETIC SHIVER */
 function animMagneticShiver(col,done){
   kf('shiver',`
     0%,100%{transform:translate(0,0)rotate(0)}
@@ -1498,7 +1388,6 @@ function animMagneticShiver(col,done){
   },720);
 }
 
-/* 9 - PARTICLE BURST */
 function animParticleBurst(col,done){
   const rc=emailBtn.getBoundingClientRect();
   const cx=rc.left+rc.width/2,cy=rc.top+rc.height/2;
@@ -1529,7 +1418,6 @@ function animParticleBurst(col,done){
   })(t0);
 }
 
-/* SCHEDULER */
 const ANIMS=[animOrbitComet,animLiquidFill,animRippleBurst,animGlitch,
   animNeonScan,animElasticBounce,animGlowBloom,animMagneticShiver,animParticleBurst];
 
